@@ -13,19 +13,8 @@ import {
   TEModalFooter,
 } from "tw-elements-react";
 
-
-function Home({
-  isUser,
-  currentUser,
-  posts,
-  setPosts,
-  isLoading,
-  setIsLoading,
-  deletePost,
-  setIsUser,
-  setCurrentUser,
-  errorToast
-}) {
+//@ts-ignore
+function Home({isUser,currentUser,posts,setPosts,isLoading,setIsLoading,deletePost,setIsUser,setCurrentUser,errorToast}) {
   const [showVerticalyCenteredModal, setShowVerticalyCenteredModal] =
     useState(false);
     
@@ -58,6 +47,7 @@ function Home({
             <div className="three-body__dot"></div>
           </div>}
           {posts &&
+            //@ts-ignore
             posts.map((post) => (
               <Post
                 key={post._id}

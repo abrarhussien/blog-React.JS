@@ -1,24 +1,9 @@
-import axios from "axios";
+
 import myImg from "../assets/images/image.png";
 import { useNavigate } from "react-router-dom";
-import {
-  TERipple,
-  TEModal,
-  TEModalDialog,
-  TEModalContent,
-  TEModalHeader,
-  TEModalBody,
-  TEModalFooter,
-} from "tw-elements-react";
 
-function Post({
-  data,
-  isUser,
-  currentUser,
-  deletePost,
-  setShowVerticalyCenteredModal,
-  setPostToDelete,
-}) {
+//@ts-ignore
+function Post({data,isUser,currentUser,deletePost,setShowVerticalyCenteredModal,setPostToDelete,}) {
   var created_date = new Date(data.date);
 
 var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -30,17 +15,17 @@ Number(hour)>10? hour=hour:hour="0"+hour
 var min = ""+created_date.getMinutes();
 Number(min)>10? min=min:min="0"+min
 
-var sec = created_date.getSeconds();
+//var sec = created_date.getSeconds();
 var time = date + ' ' + month + ' ' + year + ', ' + hour + ':' + min  ; 
 
   const navigate = useNavigate();
   console.log(data);
-  const handleDeletePost = (id) => {
+  const handleDeletePost = (id:string) => {
     setPostToDelete(id);
     setShowVerticalyCenteredModal(true);
   };
 
-  const handleEditPost = (id) => {
+  const handleEditPost = (id:string) => {
     navigate(`/posts/edit/${id}`);
   };
 

@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
@@ -6,14 +6,15 @@ import Home from "./pages/Home";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import PostForm from "./pages/PostForm";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Navbar from "./components/Navbar";
 import NotFound from "./pages/NotFound";
+import Ipost from "./interfaces/post";
 
 
 function App() {
-  const errorToast = (message) =>
+  const errorToast = (message:string) =>
     toast.error(message, {
       position: "top-center",
       autoClose: 5000,
@@ -27,10 +28,10 @@ function App() {
 
   const [isUser, setIsUser] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
-  const [posts, setPosts] = useState([]);
+  const [posts , setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const shuffle=(array)=> {
+  const shuffle=(array:Ipost[])=> {
     let currentIndex = array.length;
   
     // While there remain elements to shuffle...
@@ -57,6 +58,7 @@ function App() {
       try {
         const { data } = await axios.get("http://localhost:3000/posts");
         setIsLoading(false);
+        //@ts-ignore
         setPosts(shuffle(data.data));
       } catch (err) {
         setIsUser(false);
@@ -79,27 +81,32 @@ function App() {
     fetchPosts();
   }, []);
 
-  const addPost = (post) => {
+  const addPost = (post:Ipost) => {
     // clone & update
     let newPosts = [ post,...posts];
     // state
+    //@ts-ignore
     setPosts(newPosts);
   };
-  const editPost = (updatedPost) => {
+  const editPost = (updatedPost:Ipost) => {
     //clone & update
     let newPosts = posts;
+    //@ts-ignore
     let index = newPosts.findIndex((post) => post._id == updatedPost._id);
+    //@ts-ignore
     newPosts[index] = { ...updatedPost };
     // state
     setPosts(newPosts);
   };
 
-  const deletePost = (id) => {
-    let newPosts = posts.filter((post) => post._id !== id);
+  const deletePost = (id:string) => {
+    //@ts-ignore
+    let newPosts = posts.filter((post ) => post._id !== id);
     setPosts(newPosts);
   };
 
-  const getPost = (id) => {
+  const getPost = (id:string) => {
+    //@ts-ignore
     let index = posts.findIndex((post) => post._id === id);
     return posts[index];
   };
@@ -123,6 +130,10 @@ function App() {
                 currentUser={currentUser}
                 addPost={addPost}
                 errorToast={errorToast}
+                editPost={editPost}
+                getPost={getPost}
+                setCurrentUser={setCurrentUser}
+                setIsUser={setIsUser}
               />
             }
           />
@@ -130,6 +141,7 @@ function App() {
             path="/posts/edit/:id"
             element={
               <PostForm
+              addPost={addPost}
               errorToast={errorToast}
                 isUser={isUser}
                 currentUser={currentUser}

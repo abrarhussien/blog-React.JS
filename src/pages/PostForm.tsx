@@ -1,5 +1,4 @@
 import { Field, Form, FormikErrors, FormikProps, withFormik } from "formik";
-import Navbar from "../components/Navbar";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
@@ -21,17 +20,8 @@ interface MyFormProps {
   initialImage: string;
   message: string; // if this passed all the way through you might do this or make a union type
 }
-
-function PostForm({
-  isUser,
-  currentUser,
-  addPost,
-  getPost,
-  editPost,
-  setIsUser,
-  setCurrentUser,
-  errorToast,
-}) {
+//@ts-ignore
+function PostForm({ isUser, currentUser, addPost, getPost, editPost, setIsUser, setCurrentUser, errorToast}) {
   const navigate = useNavigate();
   const { id } = useParams();
   const mood = id ? "edit" : "add";
@@ -40,7 +30,7 @@ function PostForm({
     post = getPost(id);
   }
 
-  const successToast = (message) => {
+  const successToast = (message:string) => {
     toast.success(message, {
       position: "top-center",
       autoClose: 5000,
@@ -175,6 +165,7 @@ function PostForm({
       } else {
         axios
           .patch(
+            //@ts-ignore
             `http://localhost:3000/posts/${post._id}`,
             { ...post, ...values },
             {
@@ -202,7 +193,8 @@ function PostForm({
             <h1 className="mb-10 text-4xl font-semibold">
               {mood === "add" ? "Add Post" : "Edit Post"}
             </h1>
-            <MyForm message="add" />
+            {//@ts-ignore
+            <MyForm message="add" />}
           </div>
         </div>
       </div>

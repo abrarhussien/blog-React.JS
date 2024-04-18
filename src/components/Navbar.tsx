@@ -2,6 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import myImg from "../assets/images/image.png";
 import { useState } from "react";
 
+//@ts-ignore
 function Navbar({isUser ,currentUser,setIsUser,setCurrentUser,}) {
   const path =useLocation().pathname
   console.log(path);

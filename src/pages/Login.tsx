@@ -5,13 +5,11 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-var usernameRegex = new RegExp(/^[a-zA-Z0-9]+$/);
+//var usernameRegex = new RegExp(/^[a-zA-Z0-9]+$/);
 const emailRegex = new RegExp(
   /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
 );
-let passwordRegex = new RegExp(
-  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.#$!%*?&^])[A-Za-z\d@.#$!%*?&]{8,15}$/
-);
+//let passwordRegex = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.#$!%*?&^])[A-Za-z\d@.#$!%*?&]{8,15}$/);
 
 interface FormValues {
   email: string;
@@ -83,9 +81,10 @@ interface MyFormProps {
   message: string; // if this passed all the way through you might do this or make a union type
 }
 
+//@ts-ignore
 function Login({ setIsUser, setCurrentUser ,errorToast}) {
 
-  const warningToast = (message) =>
+  const warningToast = (message:string) =>
     toast.warn(message, {
       position: "top-center",
       autoClose: 5000,

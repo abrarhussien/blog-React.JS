@@ -123,10 +123,10 @@ interface MyFormProps {
   initialEmail?: string;
   message: string; // if this passed all the way through you might do this or make a union type
 }
-
+//@ts-ignore
 function Register({errorToast}) {
 
-  const warningToast = (message) =>
+  const warningToast = (message:string) =>
     toast.warn(message, {
       position: "top-center",
       autoClose: 5000,
