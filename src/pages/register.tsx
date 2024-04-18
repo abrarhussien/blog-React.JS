@@ -124,18 +124,8 @@ interface MyFormProps {
   message: string; // if this passed all the way through you might do this or make a union type
 }
 
-function Register() {
-  const errorToast = (message) =>
-    toast.error(message, {
-      position: "top-center",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
+function Register({errorToast}) {
+
   const warningToast = (message) =>
     toast.warn(message, {
       position: "top-center",
@@ -225,7 +215,7 @@ function Register() {
         <div className="col-span-1 xl:col-span-2 p-4  ">
           <div className="bg-white h-full rounded-3xl grid grid-cols-1 justify-center items-center p-4 ">
             <div className=" text-center">
-              <h1 className="font-bold mb-8 text-2xl">zero</h1>
+              <h1 className="font-bold mb-8 text-2xl hover:cursor-pointer"><Link to="/">zero</Link></h1>
               <h1 className="font-bold text-3xl ">welcome!</h1>
               <h6 className="text-md">please enter your deatails</h6>
             </div>

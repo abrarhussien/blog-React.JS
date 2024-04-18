@@ -1,8 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import myImg from "../assets/images/image.png";
 import { useState } from "react";
 
 function Navbar({isUser ,currentUser,setIsUser,setCurrentUser,}) {
+  const path =useLocation().pathname
+  console.log(path);
+  
   const signOut=()=>{
     localStorage.clear();
     setIsUser(false)
@@ -17,6 +20,8 @@ function Navbar({isUser ,currentUser,setIsUser,setCurrentUser,}) {
   }
 
   return (
+    <div>
+    {(path==="/" || path.includes("/posts") ) &&
     <nav className="bg-zinc-900">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div className="relative flex h-16 items-center justify-between">
@@ -64,7 +69,7 @@ function Navbar({isUser ,currentUser,setIsUser,setCurrentUser,}) {
           <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
             <div className="flex  justify-center flex-shrink-0 items-center">
               <h1 className="font-bold text-2xl h-8 w-auto text-white">
-                <Link to="/home">ZERO</Link>{" "}
+                <Link to="/">ZERO</Link>{" "}
               </h1>
             </div>
             <div className="hidden sm:ml-6 sm:block">
@@ -100,7 +105,7 @@ function Navbar({isUser ,currentUser,setIsUser,setCurrentUser,}) {
                 <div>
                   <button
                     type="button"
-                    className={`relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 ${!profilMenu&&"ring-orange ring-offset-2 ring-offset-gray-800"}`}
+                    className={`relative flex rounded-full bg-zinc-900 text-sm focus:outline-none focus:ring-2 ${!profilMenu&&"ring-orange ring-offset-2 ring-offset-gray-800"}`}
                     id="user-menu-button"
                     aria-expanded="false"
                     aria-haspopup="true"
@@ -188,7 +193,8 @@ function Navbar({isUser ,currentUser,setIsUser,setCurrentUser,}) {
           </a>
         </div>
       </div> */}
-    </nav>
+    </nav>}
+    </div>
   );
 }
 

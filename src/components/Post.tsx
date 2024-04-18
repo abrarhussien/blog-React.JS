@@ -1,26 +1,53 @@
 import axios from "axios";
 import myImg from "../assets/images/image.png";
 import { useNavigate } from "react-router-dom";
+import {
+  TERipple,
+  TEModal,
+  TEModalDialog,
+  TEModalContent,
+  TEModalHeader,
+  TEModalBody,
+  TEModalFooter,
+} from "tw-elements-react";
 
-function Post({ data ,isUser,currentUser,deletePost}) {
-  const navigate= useNavigate()
-  const handleDeletePost=(id)=>{
-    axios.delete(`http://localhost:3000/posts/${id}`,{
-      headers:{jwt:localStorage.getItem("jwt")},
-    })
-    .then(res => {
-      console.log(res)
-      deletePost(id)    
-    }).catch(err=>console.log(err))
-  }
-  const handleEditPost=(id)=>{
-    navigate(`/posts/edit/${id}`)
-  }
+function Post({
+  data,
+  isUser,
+  currentUser,
+  deletePost,
+  setShowVerticalyCenteredModal,
+  setPostToDelete,
+}) {
+  var created_date = new Date(data.date);
+
+var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+var year = created_date.getFullYear();
+var month = months[created_date.getMonth()];
+var date = created_date.getDate();
+var hour = ""+created_date.getHours()
+Number(hour)>10? hour=hour:hour="0"+hour
+var min = ""+created_date.getMinutes();
+Number(min)>10? min=min:min="0"+min
+
+var sec = created_date.getSeconds();
+var time = date + ' ' + month + ' ' + year + ', ' + hour + ':' + min  ; 
+
+  const navigate = useNavigate();
+  console.log(data);
+  const handleDeletePost = (id) => {
+    setPostToDelete(id);
+    setShowVerticalyCenteredModal(true);
+  };
+
+  const handleEditPost = (id) => {
+    navigate(`/posts/edit/${id}`);
+  };
 
   return (
     <div className="flex flex-col border rounded-lg border-zinc-300 post bg-white mb-4">
-      <div className="flex p-2 justify-between   items-center ">
-        <div className="flex gap-1 items-center ">
+      <div className="flex px-2 pt-2 justify-between   items-center ">
+        <div className="flex gap-2 items-center hover:cursor-pointer orange ">
           <div className="h-8 w-8  rounded-full border border-zinc-200 overflow-hidden">
             <img
               className="w-full"
@@ -28,11 +55,11 @@ function Post({ data ,isUser,currentUser,deletePost}) {
               alt=""
             />
           </div>
-
-          <h2>@{data.user.userName}</h2>
-
+          <div>
+            <h2 className="text-md font-medium">@{data.user.userName}</h2>
+          </div>
         </div>
-        {isUser && currentUser._id=== data.user._id &&(
+        {isUser && currentUser._id === data.user._id && (
           <div className="flex gap-1">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -41,7 +68,7 @@ function Post({ data ,isUser,currentUser,deletePost}) {
               strokeWidth={1}
               stroke="currentColor"
               className="w-4 h-4 text-zinc-800 font-thin hover:cursor-pointer"
-              onClick={()=>handleEditPost(data._id)}
+              onClick={() => handleEditPost(data._id)}
             >
               <path
                 strokeLinecap="round"
@@ -57,7 +84,7 @@ function Post({ data ,isUser,currentUser,deletePost}) {
               strokeWidth={1}
               stroke="currentColor"
               className="w-4 h-4 text-zinc-800 hover:cursor-pointer font-thin "
-              onClick={()=>handleDeletePost(data._id)}
+              onClick={() => handleDeletePost(data._id)}
             >
               <path
                 strokeLinecap="round"
@@ -68,13 +95,15 @@ function Post({ data ,isUser,currentUser,deletePost}) {
           </div>
         )}
       </div>
+      <h2 className="text-sm ms-3 mb-1 text-zinc-400">{time}</h2>
+
 
       <div className="max-h-80 overflow-hidden">
         <img src={data.image} alt="" className="w-full" />
       </div>
-      <div className="p-4">
+      <div className="p-4 text-wrap w-full">
         <h1 className="font-bold text-lg">{data.title}</h1>
-        <p>{data.body}</p>
+        <p className="text-wrap w-full break-words">{data.body}</p>
       </div>
     </div>
   );
