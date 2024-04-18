@@ -9,13 +9,13 @@ var usernameRegex = new RegExp(/^[a-zA-Z0-9]+$/);
 const emailRegex = new RegExp(
   /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
 );
-let passwordRegex = new RegExp(/^[a-zA-Z0-9]+$/);
+let passwordRegex = new RegExp(
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.#$!%*?&^])[A-Za-z\d@.#$!%*?&]{8,15}$/
+);
 
 interface FormValues {
   email: string;
   password: string;
-  repassword: string;
-  userName: string;
 }
 
 interface OtherProps {
@@ -25,29 +25,8 @@ interface OtherProps {
 const InnerForm = (props: OtherProps & FormikProps<FormValues>) => {
   const { touched, errors, isSubmitting, message, values } = props;
   return (
-    <Form className="sm:w-80 w-64 m-auto">
-      <div className="relative mb-4">
-        {values.userName && (
-          <h1 className="absolute topm left-2 bg-white ">Username</h1>
-        )}
-        <Field
-          type="text"
-          name="userName"
-          placeholder="username"
-          className={`border-b-2 border-zinc-400 w-full px-1 py-3 placeholder:text-zinc-900 ${
-            values.userName && "border-2 rounded"
-          } ${
-            touched.userName &&
-            errors.userName &&
-            "border-red-500 border-2 rounded"
-          }`}
-        />
-        {touched.userName && errors.userName && (
-          <div className="text-red-500">{errors.userName}</div>
-        )}
-      </div>
-
-      <div className="relative mb-4">
+    <Form className="sm:w-80 w-64 m-auto transition-all ">
+      <div className="relative mb-5">
         {values.email && (
           <h1 className="absolute topm left-2 bg-white ">Email</h1>
         )}
@@ -66,10 +45,11 @@ const InnerForm = (props: OtherProps & FormikProps<FormValues>) => {
         )}
       </div>
 
-      <div className="relative mb-4">
+      <div className="relative">
         {values.password && (
-          <h1 className="absolute topm left-2 bg-white ">Password</h1>
+          <h1 className="absolute topm left-2 bg-white">Password</h1>
         )}
+
         <Field
           type="password"
           name="password"
@@ -87,33 +67,12 @@ const InnerForm = (props: OtherProps & FormikProps<FormValues>) => {
         )}
       </div>
 
-      <div className="relative ">
-        {values.repassword && (
-          <h1 className="absolute topm left-2 bg-white ">Re-enter password</h1>
-        )}
-        <Field
-          type="password"
-          name="repassword"
-          placeholder="re-enter password"
-          className={`border-b-2 border-zinc-400 w-full px-1 py-3 placeholder:text-zinc-900 ${
-            values.repassword && "border-2 rounded"
-          } ${
-            touched.repassword &&
-            errors.repassword &&
-            "border-red-500 border-2 rounded"
-          }`}
-        />
-        {touched.repassword && errors.repassword && (
-          <div className="text-red-500">{errors.repassword}</div>
-        )}
-      </div>
-
       <button
         type="submit"
         disabled={isSubmitting}
-        className="bg-zinc-900 text-white px-8 py-2 w-full rounded-3xl mt-6"
+        className={`bg-zinc-900 text-white px-8 py-2 w-full rounded-3xl mt-9 `}
       >
-        sign up
+        sign in
       </button>
     </Form>
   );
@@ -124,7 +83,7 @@ interface MyFormProps {
   message: string; // if this passed all the way through you might do this or make a union type
 }
 
-function Register() {
+function Login({ setIsUser, setCurrentUser }) {
   const errorToast = (message) =>
     toast.error(message, {
       position: "top-center",
@@ -155,8 +114,6 @@ function Register() {
       return {
         email: props.initialEmail || "",
         password: "",
-        repassword: "",
-        userName: "",
       };
     },
     validate: (values: FormValues) => {
@@ -168,54 +125,45 @@ function Register() {
       }
       if (!values.password) {
         errors.password = "Required";
-      } else if (!passwordRegex.test(values.password)) {
-        errors.password = `invalid password`;
-      } else if (values.password.length > 15) {
-        errors.password = `max length is 15`;
-      } else if (values.password.length < 6) {
-        errors.password = `min length is 6`;
       }
-      if (!values.repassword) {
-        errors.repassword = "Required";
-      } else if (values.password !== values.repassword) {
-        errors.repassword = `password incorrect`;
-      }
-      if (!values.userName) {
-        errors.userName = "Required";
-      } else if (values.userName.length < 3) {
-        errors.userName = "min length is 3";
-      } else if (values.userName.length > 15) {
-        errors.userName = "max length is 15";
-      } else if (!usernameRegex.test(values.userName)) {
-        errors.userName = `invalid username`;
-      }
+      // else if (!passwordRegex.test(values.password)) {
+      //   errors.password = `At least one lowercase alphabet i.e. [a-z]
+      //   At least one uppercase alphabet i.e. [A-Z]
+      //   At least one Numeric digit i.e. [0-9]
+      //   At least one special character i.e. [‘@’, ‘$’, ‘.’, ‘#’, ‘!’, ‘%’, ‘*’, ‘?’, ‘&’, ‘^’]
+      //   Also, the total length must be in the range [8-15]`;
+      // }
+
       return errors;
     },
 
     handleSubmit: (values) => {
       //@ts-ignore
       axios
-        .post(`http://localhost:3000/user/register`, {
+        .post(`http://localhost:3000/user/login`, {
           email: values.email,
           password: values.password,
-          userName: values.userName,
         })
         .then((res) => {
-          console.log(res);
-          navigate("/login");
+          console.log(res.data.jwt);
+          localStorage.setItem("jwt", res.data.jwt);
+          setIsUser(true);
+          setCurrentUser(res.data.user);
+
+          navigate("/home");
         })
         .catch((err) => {
-          console.log(err)
+          console.log(err);
           if (err.response.status === 409) {
-            warningToast("email alraedy existes");
+            warningToast("wrong email or password");
             console.log(409);
           } else {
             errorToast("something went wrong");
           }
-
         });
     },
   })(InnerForm);
+
   return (
     <div className="bg-zinc-900 h-screen py-24 px-4 sm:px-32 flex items-center justify-center">
       <div className="graybg w-full h-full  rounded-3xl grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-5">
@@ -226,49 +174,16 @@ function Register() {
           <div className="bg-white h-full rounded-3xl grid grid-cols-1 justify-center items-center p-4 ">
             <div className=" text-center">
               <h1 className="font-bold mb-8 text-2xl">zero</h1>
-              <h1 className="font-bold text-3xl ">welcome!</h1>
+              <h1 className="font-bold text-3xl ">welcome back!</h1>
               <h6 className="text-md">please enter your deatails</h6>
             </div>
-            <MyForm message="Sign up" />
-            {/* <div className="sm:w-80 w-64 m-auto">
-              <div className="w-full">
-                <input
-                  type="text"
-                  placeholder="username"
-                  className="border-b-2 border-zinc-400 w-full px-1 py-3 placeholder:text-zinc-900 focous:border-b-2 border-zinc-400"
-                />
-              </div>
-              <div className="w-full">
-                <input
-                  type="text"
-                  placeholder="Email"
-                  className="border-b-2 border-zinc-400 w-full px-1 py-3 placeholder:text-zinc-900"
-                />
-              </div>
-              <div className="w-full">
-                <input
-                  type="text"
-                  placeholder="password"
-                  className="border-b-2 border-zinc-400 w-full px-1 py-3 placeholder:text-zinc-900"
-                />
-              </div>
-              <div className="w-full ">
-                <input
-                  type="text"
-                  placeholder="re-enter password"
-                  className="border-b-2 border-zinc-400 w-full px-1 py-3 placeholder:text-zinc-900"
-                />
-              </div>
-              <button className="bg-zinc-900 text-white px-8 py-2 w-full rounded-3xl mt-6">
-                sign up
-              </button>
-            </div> */}
+            <MyForm message="login" />
 
             <p className="text-center">
-              You already have an account? <br className="sm:hidden" />
+              You don't have an account? <br className="sm:hidden" />
               <span>
-                <Link to="/login" className="font-semibold">
-                  sign in
+                <Link to="/register" className="font-semibold">
+                  sign up
                 </Link>
               </span>
             </p>
@@ -291,4 +206,4 @@ function Register() {
   );
 }
 
-export default Register;
+export default Login;
