@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { environment } from "../environment";
 
 interface FormValues {
   title: string;
@@ -145,7 +146,7 @@ function PostForm({ isUser, currentUser, addPost, getPost, editPost, setIsUser, 
       if (mood === "add") {
         axios
           .post(
-            `http://localhost:3000/posts`,
+            environment.apiUrl+`/posts`,
             { ...values, user: currentUser._id },
             {
               headers: { jwt: localStorage.getItem("jwt") },
@@ -166,7 +167,7 @@ function PostForm({ isUser, currentUser, addPost, getPost, editPost, setIsUser, 
         axios
           .patch(
             //@ts-ignore
-            `http://localhost:3000/posts/${post._id}`,
+            environment.apiUrl+`/posts/${post._id}`,
             { ...post, ...values },
             {
               headers: { jwt: localStorage.getItem("jwt") },

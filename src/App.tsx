@@ -11,6 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Navbar from "./components/Navbar";
 import NotFound from "./pages/NotFound";
 import Ipost from "./interfaces/post";
+import { environment } from "./environment";
 
 
 function App() {
@@ -30,6 +31,8 @@ function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [posts , setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  let [profilMenu,setProfilemenu]=useState("hidden");
+
 
   const shuffle=(array:Ipost[])=> {
     let currentIndex = array.length;
@@ -49,6 +52,7 @@ function App() {
   }
 
   useEffect(() => {
+
     if (localStorage.getItem("jwt")) {
       setIsUser(true);
       fetchCurrentUser();
@@ -56,7 +60,7 @@ function App() {
     async function fetchPosts() {
       setIsLoading(true);
       try {
-        const { data } = await axios.get("http://localhost:3000/posts");
+        const { data } = await axios.get(environment.apiUrl+"/posts");
         setIsLoading(false);
         //@ts-ignore
         setPosts(shuffle(data.data));
@@ -68,7 +72,7 @@ function App() {
     }
     async function fetchCurrentUser() {
       try{
-      const { data } = await axios.get("http://localhost:3000/user", {
+      const { data } = await axios.get(environment.apiUrl+"/user", {
         headers: { jwt: localStorage.getItem("jwt") },
       });
       console.log(data);
@@ -119,6 +123,8 @@ function App() {
         currentUser={currentUser}
         setCurrentUser={setCurrentUser}
         setIsUser={setIsUser}
+        profilMenu={profilMenu}
+        setProfilemenu={setProfilemenu}
       ></Navbar>}
         <Routes>
           <Route path="/register" element={<Register errorToast={errorToast} />} />
@@ -162,6 +168,8 @@ function App() {
             path=""
             element={
               <Home
+              profilMenu={profilMenu}
+        setProfilemenu={setProfilemenu}
               errorToast={errorToast}
                 isUser={isUser}
                 setIsUser={setIsUser}

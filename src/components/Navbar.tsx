@@ -3,17 +3,17 @@ import myImg from "../assets/images/image.png";
 import { useState } from "react";
 
 //@ts-ignore
-function Navbar({isUser ,currentUser,setIsUser,setCurrentUser,}) {
+function Navbar({isUser ,currentUser,setIsUser,setCurrentUser,profilMenu,setProfilemenu}) {
   const path =useLocation().pathname
   console.log(path);
   
   const signOut=()=>{
+    setProfilemenu("hidden")
     localStorage.clear();
     setIsUser(false)
     setCurrentUser(null)
   }
 
-  let [profilMenu,setProfilemenu]=useState("hidden");
   const toggleProfilrMenu= ()=>{
     console.log(profilMenu)
     profilMenu==="hidden"?setProfilemenu(""):setProfilemenu("hidden")
@@ -21,7 +21,7 @@ function Navbar({isUser ,currentUser,setIsUser,setCurrentUser,}) {
   }
 
   return (
-    <div>
+    <div onClick={()=>!profilMenu&&setProfilemenu("hidden")}>
     {(path==="/" || path.includes("/posts") ) &&
     <nav className="bg-zinc-900">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">

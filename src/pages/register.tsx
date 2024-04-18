@@ -4,6 +4,7 @@ import myImg from "../assets/images/original-0c14504bd291054d76548cb015dff89a.pn
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { environment } from "../environment";
 
 var usernameRegex = new RegExp(/^[a-zA-Z0-9]+$/);
 const emailRegex = new RegExp(
@@ -185,7 +186,7 @@ function Register({errorToast}) {
     handleSubmit: (values) => {
       //@ts-ignore
       axios
-        .post(`http://localhost:3000/user/register`, {
+        .post(environment.apiUrl+`/user/register`, {
           email: values.email,
           password: values.password,
           userName: values.userName,

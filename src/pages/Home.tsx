@@ -12,9 +12,10 @@ import {
   TEModalBody,
   TEModalFooter,
 } from "tw-elements-react";
+import { environment } from "../environment";
 
 //@ts-ignore
-function Home({isUser,currentUser,posts,setPosts,isLoading,setIsLoading,deletePost,setIsUser,setCurrentUser,errorToast}) {
+function Home({isUser,currentUser,posts,setPosts,isLoading,setIsLoading,deletePost,setIsUser,setCurrentUser,errorToast,profilMenu,setProfilemenu}) {
   const [showVerticalyCenteredModal, setShowVerticalyCenteredModal] =
     useState(false);
     
@@ -22,7 +23,7 @@ function Home({isUser,currentUser,posts,setPosts,isLoading,setIsLoading,deletePo
 
     const handleDeletePost=()=>{
       console.log(postToDelete)
-      axios.delete(`http://localhost:3000/posts/${postToDelete}`,{
+      axios.delete(environment.apiUrl+`/posts/${postToDelete}`,{
         headers:{jwt:localStorage.getItem("jwt")},
       })
       .then(res => {
@@ -37,7 +38,7 @@ function Home({isUser,currentUser,posts,setPosts,isLoading,setIsLoading,deletePo
     navigate("/posts/add");
   };
   return (
-    <div className="graybg main">
+    <div className="graybg main" onClick={()=>!profilMenu&&setProfilemenu("hidden")}>
 
       <div className="sm:px-20 md:px-32 lg:px-60 xl:px-80 main ">
         <div className="flex flex-col pt-9 w-full main items-center bg-white relative">
