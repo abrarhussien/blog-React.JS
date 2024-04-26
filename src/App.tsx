@@ -117,7 +117,7 @@ function App() {
 
   return (
     <>
-      <BrowserRouter basename={"/blog-React.JS//"}>      
+      <BrowserRouter >      
       {<Navbar
         isUser={isUser}
         currentUser={currentUser}
