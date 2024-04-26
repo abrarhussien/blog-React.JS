@@ -45,7 +45,7 @@ function PostForm({ isUser, currentUser, addPost, getPost, editPost, setIsUser, 
   };
 
   const InnerForm = (props: OtherProps & FormikProps<FormValues>) => {
-    const { touched, errors, isSubmitting, message } = props;
+    const { touched, errors, isSubmitting } = props;
     return (
       <Form className="sm:w-full min-w-72 w-5/6 m-auto ">
         <div className="relative mb-5">
@@ -116,7 +116,7 @@ function PostForm({ isUser, currentUser, addPost, getPost, editPost, setIsUser, 
 
   const MyForm = withFormik<MyFormProps, FormValues>({
     // Transform outer props into form values
-    mapPropsToValues: (props) => {
+    mapPropsToValues: () => {
       return {
         title: mood === "add" ? "" : post.title,
         body: mood === "add" ? "" : post.body,

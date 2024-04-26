@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import Navbar from "../components/Navbar";
+import { useState } from "react";
 import Post from "../components/Post";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";

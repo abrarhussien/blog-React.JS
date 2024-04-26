@@ -22,7 +22,7 @@ interface OtherProps {
 }
 
 const InnerForm = (props: OtherProps & FormikProps<FormValues>) => {
-  const { touched, errors, isSubmitting, message, values } = props;
+  const { touched, errors, isSubmitting,  values } = props;
   return (
     <Form className="sm:w-80 w-64 m-auto transition-all ">
       <div className="relative mb-5">
