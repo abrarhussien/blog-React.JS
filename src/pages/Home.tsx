@@ -34,7 +34,8 @@ function Home({isUser,currentUser,posts,setPosts,isLoading,setIsLoading,deletePo
 
   const navigate = useNavigate();
   const addpost = () => {
-    navigate("/posts/add");
+    if(isUser) navigate("/posts/add");
+    else navigate("/login")
   };
   return (
     <div className="graybg main" onClick={()=>!profilMenu&&setProfilemenu("hidden")}>

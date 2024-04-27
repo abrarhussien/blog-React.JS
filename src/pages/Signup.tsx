@@ -208,7 +208,7 @@ function Register({errorToast}) {
     },
   })(InnerForm);
   return (
-    <div className="bg-zinc-900 h-screen py-24 px-4 sm:px-32 flex items-center justify-center">
+    <div className="bg-zinc-900 h-screen py-8 px-4 sm:px-32 flex items-center justify-center">
       <div className="graybg w-full h-full  rounded-3xl grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-5">
         <div className="rounded-3xl overflow-hidden col-span-1 xl:col-span-3 hidden lg:block ">
           <img className="h-full" src={myImg} />

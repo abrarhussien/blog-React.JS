@@ -46,7 +46,7 @@
 }
 
 .top-screen{
-    top:calc(100vh - 95px  );
+    top:calc(100vh - 105px  );
 }
 .ring-orange {
     --tw-ring-opacity: 1;
