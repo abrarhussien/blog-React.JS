@@ -68,8 +68,8 @@ const InnerForm = (props: OtherProps & FormikProps<FormValues>) => {
 
       <button
         type="submit"
-        disabled={isSubmitting}
-        className={`bg-zinc-900 text-white px-8 py-2 w-full rounded-3xl mt-9 `}
+        // disabled={isSubmitting}
+        className={`bg-zinc-900 text-white px-8 py-2 w-full rounded-3xl mt-9 disabled:bg-zinc-600F `}
       >
         sign in
       </button>
