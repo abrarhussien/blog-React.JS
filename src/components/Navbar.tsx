@@ -149,7 +149,7 @@ function Navbar({isUser ,currentUser,setIsUser,setCurrentUser,profilMenu,setProf
                   Settings
                 </a> */}
                 <a
-                  className="block px-4 py-2 text-sm text-gray-700 hover:cursor-pointer"
+                  className="block px-4 py-2 text-sm text-gray-700 hover:cursor-pointer hover:text-gray-400"
                   role="menuitem"
                   tabIndex={-1}
                   id="user-menu-item-2"

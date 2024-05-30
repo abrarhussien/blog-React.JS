@@ -35,12 +35,12 @@ const InnerForm = (props: OtherProps & FormikProps<FormValues>) => {
           type="text"
           name="userName"
           placeholder="username"
-          className={`border-b-2 border-zinc-400 w-full px-1 py-3 placeholder:text-zinc-900 ${
-            values.userName && "border-2 rounded"
+          className={`border-b-2  w-full px-1 py-3 placeholder:text-zinc-900 ${
+            values.userName ? "border-2 rounded":""
           } ${
             touched.userName &&
-            errors.userName &&
-            "border-red-500 border-2 rounded"
+            errors.userName ?
+            "border-red-500 ":"border-zinc-400"
           }`}
         />
         {touched.userName && errors.userName && (
@@ -56,10 +56,10 @@ const InnerForm = (props: OtherProps & FormikProps<FormValues>) => {
           type="email"
           name="email"
           placeholder="email"
-          className={`border-b-2 border-zinc-400 w-full px-1 py-3 placeholder:text-zinc-900 ${
-            values.email && "border-2 rounded"
+          className={`border-b-2  w-full px-1 py-3 placeholder:text-zinc-900 ${
+            values.email ?"border-2 rounded":""
           } ${
-            touched.email && errors.email && "border-red-500 border-2 rounded"
+            touched.email && errors.email?"border-red-500 ":"border-zinc-400"
           }`}
         />
         {touched.email && errors.email && (
@@ -75,12 +75,12 @@ const InnerForm = (props: OtherProps & FormikProps<FormValues>) => {
           type="password"
           name="password"
           placeholder="password"
-          className={`border-b-2 border-zinc-400 w-full px-1 py-3 placeholder:text-zinc-900 ${
-            values.password && "border-2 rounded"
+          className={`border-b-2  w-full px-1 py-3 placeholder:text-zinc-900 ${
+            values.password ? "border-2 rounded":""
           } ${
             touched.password &&
-            errors.password &&
-            "border-red-500 border-2 rounded"
+            errors.password ?
+            "border-red-500":"border-zinc-400"
           }`}
         />
         {touched.password && errors.password && (
@@ -96,12 +96,12 @@ const InnerForm = (props: OtherProps & FormikProps<FormValues>) => {
           type="password"
           name="repassword"
           placeholder="re-enter password"
-          className={`border-b-2 border-zinc-400 w-full px-1 py-3 placeholder:text-zinc-900 ${
-            values.repassword && "border-2 rounded"
+          className={`border-b-2  w-full px-1 py-3 placeholder:text-zinc-900 ${
+            values.repassword ? "border-2 rounded":""
           } ${
             touched.repassword &&
-            errors.repassword &&
-            "border-red-500 border-2 rounded"
+            errors.repassword?
+            "border-red-500 ":"border-zinc-400"
           }`}
         />
         {touched.repassword && errors.repassword && (
@@ -112,7 +112,7 @@ const InnerForm = (props: OtherProps & FormikProps<FormValues>) => {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="bg-zinc-900 text-white px-8 py-2 w-full rounded-3xl mt-6"
+        className="bg-zinc-900 text-white px-8 py-2 w-full rounded-3xl mt-6 hover:bg-zinc-800"
       >
         sign up
       </button>
